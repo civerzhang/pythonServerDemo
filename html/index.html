@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple HTML Page</title>
+</head>
+<body>
+    <h1>Welcome to the HTML Page</h1>
+    <p>This page is served via http-server on port 8088.</p>
+    <div id="result"></div>
+    <script>
+        // 生成随机字符串
+        function generateRandomString(length = 10) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        // 发送 POST 请求
+        const data = {
+            signData: generateRandomString(),
+            key: generateRandomString()
+        };
+
+        fetch('http://localhost:30002/authsign', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = `Response from /authsign: ${data.result}`;
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = `Error: ${error.message}`;
+            });
+    </script>
+</body>
+</html>
