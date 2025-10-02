@@ -7,9 +7,11 @@ import string
 class AuthHandler(BaseHTTPRequestHandler):
     def do_OPTIONS(self):
         print(f"do_OPTIONS Request from client IP: {self.client_address[0]}")
+        # 200还是204都可以使用，只是204规范一点
         self.send_response(204)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        # Content-Type必须设置允许，否则默认应答text/html
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
 
